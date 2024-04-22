@@ -12,8 +12,7 @@ const units = JSON.parse(localStorage.getItem('units')) || '°C'
 
 localStorage.setItem('units', JSON.stringify(units))
 
-
-console.log(data);
+// console.log(data);
 
 document.querySelector('#app').innerHTML = `
   ${Header.html()}

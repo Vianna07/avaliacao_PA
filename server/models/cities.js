@@ -25,7 +25,6 @@ const citySchema = new mongoose.Schema({
     lon: Number,
     lat: Number
   },
-  search_name: String,
 });
 
 const City = mongoose.model('City', citySchema);

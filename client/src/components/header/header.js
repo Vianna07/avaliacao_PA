@@ -31,20 +31,34 @@ function html() {
 
 function js(url_base) {
   const input = document.getElementById('search-input')
-  console.log(input.offsetTop);
+  const list = document.getElementById('list');
+
+  window.addEventListener('resize', (event) => {
+    if (list.style.display != "none") {
+        const positions = input.getBoundingClientRect()
+    
+        list.style.left = `${positions.left}px`;
+        list.style.top = `${positions.bottom}px`; 
+        list.style.width = `${positions.width}px`;
+        list.style.display = 'block';
+    }
+  })
 
   input.addEventListener('input', async (event) => {
       if (event.target.value.length >= 2) {
             const data = await Fetch(`${url_base}/cities?name=${event.target.value}`, 'GET')
         
             __showList(data)
+      } else {
+            const list = document.getElementById('list');
+            list.style.display = 'none';
       }
   })
 }
 
 function __showList(data) {
     const input = document.getElementById('search-input');
-    const header = document.querySelector('header')
+    
     data = data.cities;
 
     const list = document.getElementById('list');
@@ -52,16 +66,26 @@ function __showList(data) {
 
     data.forEach(city => {
         const li = document.createElement('li');
-        li.className = 'list-group-item';
+        const img = document.createElement('img');
+        const h6 = document.createElement('h6');
+
+        img.src = `https://flagsapi.com/${city.country}/flat/32.png`
+        h6.className = "m-0"
+        h6.textContent = `${city.name}, ${city.country}`
+
+        li.className = 'list-group-item d-flex align-items-center gap-2';
         li.onclick = selectCity.bind(this, city)
-        li.textContent = `${city.name}, ${city.country}`
+        li.appendChild(img)
+        li.appendChild(h6)
 
         list.appendChild(li);
     });
 
-    list.style.top = `${header.offsetHeight}px`; 
-    list.style.left = `${input.offsetLeft}px`;
-    list.style.width = `${input.offsetWidth}px`;
+    const positions = input.getBoundingClientRect()
+
+    list.style.left = `${positions.left}px`;
+    list.style.top = `${positions.bottom}px`; 
+    list.style.width = `${positions.width}px`;
     list.style.display = 'block';
 }
 
