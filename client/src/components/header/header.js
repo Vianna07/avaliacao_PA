@@ -1,4 +1,5 @@
-import Fetch from '../../../utils/fetch';
+import Fetch, { updateData } from '../../../utils/fetch';
+import { getUnitName } from '../../../utils/units';
 import logo from '../../assets/img/logo.png';
 import Body from '../body/body';
 
@@ -18,11 +19,11 @@ function html() {
                                 search
                             </i>
                         </span>
-                        <input id="search-input" type="text" class="form-control" placeholder="Buscar cidade" aria-label="Buscar cidade">
+                        <input id="search-input" type="text" class="form-control" placeholder="Buscar cidade" aria-label="Buscar cidade" autocomplete="off">
                     </div>
                     <button id="btn-units" class="btn btn-outline-primary ms-3" type="button">${JSON.parse(localStorage.getItem('units'))}</button>
                 </form>
-                <ol id="list" class="list-group" style="display: none; position: absolute; z-index: 1"></ol>                
+                <ol id="list" class="position-absolute list-group overflow-y-auto z-1" style="display: none; max-height: 350px;"></ol>                
             </div>
         </nav>
     </header>
@@ -37,6 +38,8 @@ function js(url_base) {
   window.addEventListener('resize', (event) => {
     if (list.style.display != "none") {
         const positions = input.getBoundingClientRect()
+
+        console.log(positions);
     
         list.style.left = `${positions.left}px`;
         list.style.top = `${positions.bottom}px`; 
@@ -56,20 +59,26 @@ function js(url_base) {
       }
   })
 
-  btnUnits.addEventListener('click', (event) => {
+  btnUnits.addEventListener('click', async (event) => {
     const units = {
         "°C": "°F",
         "°F": "°C"
     }
 
     const currentUnit = JSON.parse(localStorage.getItem("units"))
-    console.log(currentUnit);
+
+    const data = await updateData(JSON.parse(localStorage.getItem('last_weather_searched')), units[currentUnit])
+    
+    if (data) {
+        Body.js(data, units[currentUnit])
+    }
+
     event.target.textContent = units[currentUnit]
     localStorage.setItem('units', JSON.stringify(units[currentUnit]))
   })
 }
 
-function __showList(data) {
+async function __showList(data) {
     const input = document.getElementById('search-input');
     
     data = data.cities;
@@ -82,11 +91,12 @@ function __showList(data) {
         const img = document.createElement('img');
         const h6 = document.createElement('h6');
 
-        img.src = `https://flagsapi.com/${city.country}/flat/32.png`
+        img.src = `https://flagsapi.com/${city.country_code}/flat/32.png`
         h6.className = "m-0"
         h6.textContent = `${city.name}, ${city.country}`
 
-        li.className = 'list-group-item d-flex align-items-center gap-2';
+        li.className = 'list-group-item list-group-item-action d-flex align-items-center gap-2';
+        li.style.cursor = "pointer"
         li.onclick = selectCity.bind(this, city)
         li.appendChild(img)
         li.appendChild(h6)
@@ -95,6 +105,8 @@ function __showList(data) {
     });
 
     const positions = input.getBoundingClientRect()
+
+    console.log(positions);
 
     list.style.left = `${positions.left}px`;
     list.style.top = `${positions.bottom}px`; 
@@ -106,18 +118,12 @@ async function selectCity(city) {
     const list = document.getElementById('list');
     list.style.display = 'none';
 
-    const unitsValue = JSON.parse(localStorage.getItem('units'));
+    const unitsCode = JSON.parse(localStorage.getItem('units'));
 
-    let unitsName;
-
-    if (unitsValue === '°C') {
-        unitsName = 'metric';
-    } else {
-        unitsName = 'imperial';
-    }
+    let unitsName = getUnitName(unitsCode);
 
     const data = await Fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${city.coordinates.lat}&lon=${city.coordinates.lon}&lang=${'pt-br'}&units=${unitsName}&appid=${import.meta.env.VITE_API_KEY}`, 'GET')
-    Body.js(data, unitsValue)
+    Body.js(data, unitsCode)
 
     localStorage.setItem('last_weather_searched', JSON.stringify(data))
 }

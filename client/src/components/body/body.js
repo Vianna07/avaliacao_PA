@@ -3,13 +3,14 @@ import sunset from '../../assets/img/sunset.jpeg'
 import sunrise from '../../assets/img/sunrise.jpeg'
 import humidity from '../../assets/img/humidity.jpeg'
 import cloud_all from '../../assets/img/cloud-all.png'
+import Fetch, { updateData } from '../../../utils/fetch'
 
 function html() {
     return `
     <div id="data" class="container mt-4 d-flex flex-column gap-3"></div>`
 }
 
-function js(data, units) {
+async function js(data, units) {
     const div = document.getElementById('data')
     div.innerHTML = `
     ${!!data ? `

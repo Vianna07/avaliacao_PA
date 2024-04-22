@@ -4,15 +4,16 @@ import './style.css'
 import "bootstrap/dist/css/bootstrap.min.css"
 import * as bootstrap from 'bootstrap'
 import Body from './components/body/body'
+import { updateData } from '../utils/fetch'
 
 const URL_BASE = import.meta.env.VITE_API_URL_BASE
 
-const data = JSON.parse(localStorage.getItem('openweathermap'))
+const data = JSON.parse(localStorage.getItem('last_weather_searched'))
 const units = JSON.parse(localStorage.getItem('units')) || '°C'
 
-localStorage.setItem('units', JSON.stringify(units))
+const _data = await updateData(data, units)
 
-// console.log(data);
+localStorage.setItem('units', JSON.stringify(units))
 
 document.querySelector('#app').innerHTML = `
   ${Header.html()}
@@ -20,10 +21,4 @@ document.querySelector('#app').innerHTML = `
 `
 
 Header.js(URL_BASE)
-Body.js(data, units)
-
-
-
-
-
-// localStorage.setItem('openweathermap', JSON.stringify(data))
+Body.js(_data, units)
