@@ -1,0 +1,24 @@
+html, body {
+  height: 100%;
+}
+
+:root {
+  --wx-bg-header: #efefef;
+  --wx-bg-input: #fefefe;
+  --wx-btn-primary: #008cff;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  background: linear-gradient(0deg, rgba(158,236,231,1) 0%, rgba(52,234,238,1) 40%, rgba(0,212,255,1) 100%);
+}
+
+#app {
+  height: 100%;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}

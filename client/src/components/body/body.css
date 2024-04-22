@@ -1,0 +1,12 @@
+@media screen and (max-width: 1024px) {
+    #main-img {
+        width: 60px;
+        height: 60px;
+    }
+}
+
+@media screen and (max-width: 440px) {
+    #main-card {
+        max-width: 355px !important;
+    }
+}
