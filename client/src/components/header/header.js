@@ -38,8 +38,6 @@ function js(url_base) {
   window.addEventListener('resize', (event) => {
     if (list.style.display != "none") {
         const positions = input.getBoundingClientRect()
-
-        console.log(positions);
     
         list.style.left = `${positions.left}px`;
         list.style.top = `${positions.bottom}px`; 
@@ -105,8 +103,6 @@ async function __showList(data) {
     });
 
     const positions = input.getBoundingClientRect()
-
-    console.log(positions);
 
     list.style.left = `${positions.left}px`;
     list.style.top = `${positions.bottom}px`; 
