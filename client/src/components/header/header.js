@@ -10,7 +10,7 @@ function html() {
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">
                     <img src="${logo}" width="32" height="32" alt="logo">
-                    Weather-App
+                    <strong>Weather-App</strong>
                 </a>
                 <form class="d-flex flex-grow-1">
                     <div class="input-group">

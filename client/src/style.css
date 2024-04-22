@@ -10,7 +10,7 @@ html, body {
 
 body {
   font-family: 'Open Sans', sans-serif;
-  background: linear-gradient(0deg, rgba(158,236,231,1) 0%, rgba(52,234,238,1) 40%, rgba(0,212,255,1) 100%);
+  transition: background-color 2.5s ease-in-out;
 }
 
 #app {
