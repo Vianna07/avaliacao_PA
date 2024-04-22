@@ -20,7 +20,7 @@ function html() {
                         </span>
                         <input id="search-input" type="text" class="form-control" placeholder="Buscar cidade" aria-label="Buscar cidade">
                     </div>
-                    <button class="btn btn-outline-primary ms-3" type="button">C°</button>
+                    <button id="btn-units" class="btn btn-outline-primary ms-3" type="button">${JSON.parse(localStorage.getItem('units'))}</button>
                 </form>
                 <ol id="list" class="list-group" style="display: none; position: absolute; z-index: 1"></ol>                
             </div>
@@ -32,6 +32,7 @@ function html() {
 function js(url_base) {
   const input = document.getElementById('search-input')
   const list = document.getElementById('list');
+  const btnUnits = document.getElementById('btn-units')
 
   window.addEventListener('resize', (event) => {
     if (list.style.display != "none") {
@@ -53,6 +54,18 @@ function js(url_base) {
             const list = document.getElementById('list');
             list.style.display = 'none';
       }
+  })
+
+  btnUnits.addEventListener('click', (event) => {
+    const units = {
+        "°C": "°F",
+        "°F": "°C"
+    }
+
+    const currentUnit = JSON.parse(localStorage.getItem("units"))
+    console.log(currentUnit);
+    event.target.textContent = units[currentUnit]
+    localStorage.setItem('units', JSON.stringify(units[currentUnit]))
   })
 }
 

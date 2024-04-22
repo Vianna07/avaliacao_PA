@@ -77,7 +77,7 @@ function js(data, units) {
             </div>
         </div>    
     </div>` :
-    `<h2>Nenhuma Cidade Escolhida</h2>`}
+    `<h2 class="text-center">Nenhuma Cidade Escolhida</h2>`}
     `
 }
 
