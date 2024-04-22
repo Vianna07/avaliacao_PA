@@ -74,6 +74,14 @@ function js(url_base) {
     event.target.textContent = units[currentUnit]
     localStorage.setItem('units', JSON.stringify(units[currentUnit]))
   })
+
+  document.body.addEventListener('click', (event) => {
+    const list = document.getElementById('list')
+    
+    if (event.target != document.getElementById('search-input') && list.style.display !== "none") {
+        list.style.display = "none"
+    }
+  })
 }
 
 async function __showList(data) {
