@@ -21,7 +21,7 @@ export async function updateData(data, units) {
     let _data
 
     if (data) {
-        _data = await Fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${data.coord.lat}&lon=${data.coord.lon}&lang=${'pt-br'}&units=${getUnitName(units)}&appid=${import.meta.env.VITE_API_KEY}`, 'GET')
+        _data = await Fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${data.coord.lat}&lon=${data.coord.lon}&lang=${'pt_br'}&units=${getUnitName(units)}&appid=${import.meta.env.VITE_API_KEY}`, 'GET')
                             .catch(error => {
                                 console.error(error);
                                 return null

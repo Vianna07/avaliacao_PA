@@ -118,7 +118,7 @@ async function selectCity(city) {
 
     let unitsName = getUnitName(unitsCode);
 
-    const data = await Fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${city.coordinates.lat}&lon=${city.coordinates.lon}&lang=${'pt-br'}&units=${unitsName}&appid=${import.meta.env.VITE_API_KEY}`, 'GET')
+    const data = await Fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${city.coordinates.lat}&lon=${city.coordinates.lon}&lang=${'pt_br'}&units=${unitsName}&appid=${import.meta.env.VITE_API_KEY}`, 'GET')
     Body.js(data, unitsCode)
 
     localStorage.setItem('last_weather_searched', JSON.stringify(data))
