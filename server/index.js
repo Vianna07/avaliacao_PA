@@ -8,7 +8,7 @@ const app = express();
 app.use(cors());
 dotenv.config();
 
-const PORT = process.env.PORT || 8000
+const PORT = process.env.PORT || 4000
 const MONGO_URL = process.env.MONGO_URL
 
 mongoose.connect(MONGO_URL).then(() => {

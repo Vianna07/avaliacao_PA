@@ -1,7 +1,7 @@
 import Header from './components/header/header'
 import './style.css'
 
-import "bootstrap/dist/css/bootstrap.min.css"
+// import "bootstrap/dist/css/bootstrap.min.css"
 import * as bootstrap from 'bootstrap'
 import Body from './components/body/body'
 import { updateData } from '../utils/fetch'
