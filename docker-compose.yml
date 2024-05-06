@@ -1,0 +1,44 @@
+# Operating System: Microsoft Windows 11 Pro - 10.0.22631
+# Docker version: 26.0.0
+# Docker Compose version: v2.26.1-desktop.1
+# Run: docker compose up
+# Clear Cache: docker image prune --all && docker container prune && docker volume prune && docker network prune
+
+name: 'weather-app'
+
+services:
+  client:
+    container_name: weather-client-container
+    build: ./client
+    ports: 
+      - 3000:80
+  
+  server: 
+    container_name: weather-server-container
+    build: ./server
+    ports:
+      - "3001:3001"
+    depends_on:
+      - database
+
+  database:
+    container_name: weather-database-container
+    image: mongo:7
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: 939afd1cf9640827468cecd3bffd64236bec09a71f7f5c64dba153eab3f36b7c
+    volumes:
+      - ./database/backup:/data/db/backup
+      - ./database/init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh:ro
+
+# CONNECT WITH MONGO
+# > docker exec -it weather-db-container bash
+# > mongosh
+# > use admin
+# > db.auth("admin", passwordPrompt())
+# Type the password
+# Or > db.auth("admin", "939afd1cf9640827468cecd3bffd64236bec09a71f7f5c64dba153eab3f36b7c")
+# > show dbs
+# > use weather-db
+# > show collections
+# > db.cities.find()

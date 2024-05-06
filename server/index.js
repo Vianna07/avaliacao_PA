@@ -8,18 +8,23 @@ const app = express();
 app.use(cors());
 dotenv.config();
 
-const PORT = process.env.PORT || 4000
+const PORT = process.env.PORT || 3001
 const MONGO_URL = process.env.MONGO_URL
 
-mongoose.connect(MONGO_URL).then(() => {
-    console.log('Conectado com sucesso!')
-    app.listen(PORT, () => {
-        console.log(`Servidor rodando na porta ${PORT}`)
+function handleConnection() {
+    mongoose.connect(MONGO_URL).then(() => {
+        console.log('Conectado com sucesso!')
+        app.listen(PORT, () => {
+            console.log(`Servidor rodando na porta ${PORT}`)
+        })
+    }).catch(error => {
+        console.log('Erro ao conectar com banco');
+        console.log(error);
+        setTimeout(handleConnection, 10000)
     })
-}).catch(error => {
-    console.log('Erro ao conectar com banco');
-    console.log(error);
-})
+}
+
+handleConnection()
 
 app.get('/', (req, res) => {
     res.send('weather-api')
@@ -36,3 +41,5 @@ app.get('/cities', async (req, res) => {
         res.status(500).json({ error: 'Erro interno do servidor' });
     }
 });
+
+// TODO: Build application with Webpack and Babel
