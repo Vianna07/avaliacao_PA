@@ -1,3 +1,2 @@
 weather-db.cities.json filter=lfs diff=lfs merge=lfs -text
-cities.bson filter=lfs diff=lfs merge=lfs -text
 *.bson filter=lfs diff=lfs merge=lfs -text
